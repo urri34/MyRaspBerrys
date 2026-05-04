@@ -4,4 +4,4 @@ I use it for general purpose. Install OS thru Raspberry Pi imager from [Official
 
 # Raspberry zero 2 w
 
-Teh killer! I use it with a USB+Ethernet hat. Most interesting project running on it it's the WiFi to Ethernet bridge.
+The killer! I use it with a USB+Ethernet hat. Most interesting project running on it it's the WiFi to Ethernet bridge.
