@@ -1,0 +1,35 @@
+## AutoShutdown thru Home Assistant
+
+/usr/local/bin/request_rasp4b_powercut.sh
+```
+#!/bin/bash
+HA_URL="http://<ip_home_assistant>:8123"
+TOKEN="abcdefghijklmonpqrst"
+SCRIPT_ENTITY="script.rasp4b_poweroff"
+curl -s -X POST \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d "{\"entity_id\":\"$SCRIPT_ENTITY\"}" \
+  "$HA_URL/api/services/script/turn_on" >/dev/null 2>&1
+```
+Setting restricted access in order to protect the Token
+```
+chmod 500 /usr/local/bin/request_rasp4b_powercut.sh
+```
+Lets have a look at /etc/systemd/system/MyPowerCut.service
+```
+[Unit]
+Description=Request delayed Raspberry power cut via Home Assistant
+DefaultDependencies=no
+Before=poweroff.target halt.target
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/request_rasp4b_powercut.sh
+TimeoutStartSec=15
+
+[Install]
+WantedBy=poweroff.target halt.target
+```
